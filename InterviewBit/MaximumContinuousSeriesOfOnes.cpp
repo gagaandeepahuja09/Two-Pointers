@@ -1,25 +1,28 @@
-vector<int> Solution::maxone(vector<int> &A, int B) {
-    int i = 0, j = 0, n = A.size(), cnt = 0, windowSize = -1, start = -1;
-    while(j < n) {
-        if(cnt <= B) {
-            if(A[j] == 0)
-                cnt++;
-            j++;    
+vector<int> Solution::maxone(vector<int> &A, int m) {
+    int n = A.size();
+    vector<int> ret;
+    int l = 0, r = 0, c0 = 0, start = -1, mx = 0;
+    while(r < n) {
+        if(c0 <= m) {
+            if(A[r] == 0)
+                c0++;
+            r++;
         }
-        // We can't put else because above condn. will increase count
-        if(cnt > B) {
-            if(A[i] == 0)
-                cnt--;
-            i++;
+        if(c0 > m) {
+            if(A[l] == 0)
+                c0--;
+            l++;    
         }
-        if(j - i > windowSize) {
-            windowSize = j - i;
-            start = i;
+        if(r - l + 1 > mx) {
+            mx = r - l + 1;
+            start = l;
+        }       
+    }
+    if(start != -1) {
+        for(int i = start; i < start + mx - 1; i++) {
+            ret.push_back(i);
         }
     }
-    vector<int> ret;
-    for(int i = start; i < start + windowSize; i++)
-        ret.push_back(i);
-    return ret;    
+    return ret;
 }
 
