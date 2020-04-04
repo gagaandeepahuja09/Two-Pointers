@@ -1,34 +1,21 @@
 class Solution {
 public:
     bool canTransform(string s, string e) {
-        if(s.size() != e.size())
+        string s1, s2;
+        for(auto i : s) if(i != 'X')    s1 += i;
+        for(auto i : e) if(i != 'X')    s2 += i;
+        cout << s1 << " " << s2 << endl;
+        if(s1 != s2)
             return false;
-        int lc = 0, rc = 0;
-        for(int i = 0; i < s.size(); i++) {
-            if(s[i] == 'L')
-                lc++;
-            if(e[i] == 'L')
-                lc--;
-            if(s[i] == 'R')
-                rc++;
-            if(e[i] == 'R')
-                rc--;
-        }
-        if(lc || rc)
-            return false;
-        int i = 0, j = 0, n = s.size();
-        while(i < n && j < n) {
-            while(s[i] == 'X')  i++;
-            while(e[j] == 'X')  j++;
-            if(i == s.size() && j == e.size())
-                return true;
-            if(i == s.size() || j == e.size() || s[i] != e[j])
-                return false;
-            if(s[i] == 'L' && i < j)
-                return false;
-            if(s[i] == 'R' && i > j)
-                return false;
-            i++; j++;
+        int i = 0, j = 0;
+        while(i < s.size() && j < e.size()) {
+            if(s[i] == 'X') i++;
+            else if(e[j] == 'X') j++;
+            else { 
+                if((s[i] == 'L' && i < j) || (s[i] == 'R' && i > j))
+                    return false;
+                i++;    j++;
+            }
         }
         return true;
     }
